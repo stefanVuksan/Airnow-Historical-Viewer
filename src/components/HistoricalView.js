@@ -47,16 +47,16 @@ function HistoricalView() {
     let currentDate = new Date(searchDate.startDate), requestCount = 0;
     while ( currentDate <= new Date(searchDate.endDate) ) {
       const date = currentDate.toISOString().split('T')[0] + 'T00-0000';
-      requestCount++;
+      // requestCount++;
       HistoricalApi.get(zipCode, distance, date, 
         (res) => {
           historicalContext.push(res);     
-          requestCount--;
+          // requestCount--;
           if ( requestCount <= 0 ) setLoading(false);
         },
 
         (err) => {
-          requestCount--;
+          // requestCount--;
           if ( requestCount <= 0 ) setLoading(false);
         }
       )
