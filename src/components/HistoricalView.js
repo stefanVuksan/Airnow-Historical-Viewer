@@ -44,22 +44,23 @@ function HistoricalView() {
     historicalContext.init();
     setLoading(true);
 
-    let currentDate = new Date(searchDate.startDate), requestCount = 0;
+    let currentDate = new Date(searchDate.startDate);
+    var requestCount = 0;
+    const onSuccess = (res) => {
+      historicalContext.push(res);     
+      requestCount--;
+      if ( requestCount <= 0 ) setLoading(false);
+    }
+
+    const onError = (err) => {
+      requestCount--;
+      if ( requestCount <= 0 ) setLoading(false);
+    }
+
     while ( currentDate <= new Date(searchDate.endDate) ) {
       const date = currentDate.toISOString().split('T')[0] + 'T00-0000';
-      // requestCount++;
-      HistoricalApi.get(zipCode, distance, date, 
-        (res) => {
-          historicalContext.push(res);     
-          // requestCount--;
-          if ( requestCount <= 0 ) setLoading(false);
-        },
-
-        (err) => {
-          // requestCount--;
-          if ( requestCount <= 0 ) setLoading(false);
-        }
-      )
+      requestCount++;
+      HistoricalApi.get(zipCode, distance, date, onSuccess, onError);
       currentDate.setDate(currentDate.getDate() + 1);
     }
   }
