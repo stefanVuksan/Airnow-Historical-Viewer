@@ -1,4 +1,4 @@
-import React, {useRef, useState, useContext, useEffect} from "react";
+import React, {useState, useContext} from "react";
 import Chart from "react-apexcharts";
 
 import { HistoricalContext } from "../context";
@@ -19,7 +19,7 @@ export default function Historical() {
 
   const historicalContext = useContext(HistoricalContext);
   const historicals = historicalContext.rows;
-  const getHistoricals = (days, parameter) => historicals.filter(h=>h.ParameterName.indexOf(parameter)!=-1).sort((a, b)=>new Date(a.DateObserved) - new Date(b.DateObserved)).slice(-days);
+  const getHistoricals = (days, parameter) => historicals.filter(h=>h.ParameterName.indexOf(parameter)!==-1).sort((a, b)=>new Date(a.DateObserved) - new Date(b.DateObserved)).slice(-days);
   const getCategories = (days, parameter) => getHistoricals(days, parameter)?.map((historical, idx)=>monthNames[new Date(historical.DateObserved).getMonth()] + ' ' + nth(new Date(historical.DateObserved).getDate()));
   const getValues = (days, parameter) => getHistoricals(days, parameter)?.map((historical, idx)=>historical.AQI);
 
@@ -34,7 +34,7 @@ export default function Historical() {
         align: 'center',
       },
       xaxis: {
-        categories: getCategories(period == 'Month' ? 30 : 7, parameter)
+        categories: getCategories(period === 'Month' ? 30 : 7, parameter)
       },
       yaxis: {
         opposite: true,
@@ -59,7 +59,7 @@ export default function Historical() {
     return [
       {
         name: parameter,
-        data: getValues(period == 'Month' ? 30 : 7, parameter)
+        data: getValues(period === 'Month' ? 30 : 7, parameter)
       }
     ]
   }

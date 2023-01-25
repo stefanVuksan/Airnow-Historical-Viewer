@@ -1,4 +1,4 @@
-import React, {useRef, useState, useContext} from "react";
+import React, {useContext} from "react";
 
 import { CustomDateContext } from "../context";
 import SearchPanel from "./SearchPanel";

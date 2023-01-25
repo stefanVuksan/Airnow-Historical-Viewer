@@ -1,4 +1,4 @@
-import React, {useRef, useState, useContext} from "react";
+import React, {useRef, useState} from "react";
 
 import Datepicker from "react-tailwindcss-datepicker";
 import HistoricalApi from "../services/historical.service";

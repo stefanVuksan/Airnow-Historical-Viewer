@@ -22,19 +22,19 @@ export default function MainTabView(props) {
                     </div>
                     <div className="hidden sm:-my-px sm:ml-6 sm:flex sm:space-x-8">
                       {props.navigation.map((item, idx) => (
-                        <a
+                        <div
                           key={idx}
                           className={classNames(
-                            idx == currentTabIndex
+                            idx === currentTabIndex
                               ? 'border-indigo-500 text-gray-900'
                               : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700',
                             'inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium cursor-pointer'
                           )}
-                          aria-current={idx == currentTabIndex ? 'page' : undefined}
+                          aria-current={idx === currentTabIndex ? 'page' : undefined}
                           onClick={()=>setCurrentTabIndex(idx)}
                         >
                           {item}
-                        </a>
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -58,14 +58,14 @@ export default function MainTabView(props) {
                   {props.navigation.map((item, idx) => (
                     <Disclosure.Button
                       key={idx}
-                      as="a"
+                      as="div"
                       className={classNames(
-                        idx == currentTabIndex
+                        idx === currentTabIndex
                           ? 'bg-indigo-50 border-indigo-500 text-indigo-700'
                           : 'border-transparent text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800',
                         'block pl-3 pr-4 py-2 border-l-4 text-base font-medium cursor-pointer'
                       )}
-                      aria-current={idx == currentTabIndex ? 'page' : undefined}
+                      aria-current={idx === currentTabIndex ? 'page' : undefined}
                       onClick={()=>setCurrentTabIndex(idx)}
                     >
                       {item}
@@ -78,7 +78,7 @@ export default function MainTabView(props) {
           )}
         </Disclosure>
           {props.panels?.map((panel, idx) => (
-            <div key={idx} className={`${idx != currentTabIndex ? 'hidden' : ''} p-4 sm:p-6 lg:p-8`}>
+            <div key={idx} className={`${idx !== currentTabIndex ? 'hidden' : ''} p-4 sm:p-6 lg:p-8`}>
               {panel}            
             </div>
           ))}
