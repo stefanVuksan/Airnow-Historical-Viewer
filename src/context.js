@@ -6,3 +6,4 @@ const HistoricalContextDefaultValues = {
   init: () => {},
 }
 export const HistoricalContext = createContext(HistoricalContextDefaultValues);
+export const CustomDateContext = createContext(HistoricalContextDefaultValues);
