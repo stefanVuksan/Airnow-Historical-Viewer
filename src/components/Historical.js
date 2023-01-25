@@ -23,7 +23,7 @@ export default function Historical() {
   const getCategories = (days, parameter) => getHistoricals(days, parameter)?.map((historical, idx)=>monthNames[new Date(historical.DateObserved).getMonth()] + ' ' + nth(new Date(historical.DateObserved).getDate()));
   const getValues = (days, parameter) => getHistoricals(days, parameter)?.map((historical, idx)=>historical.AQI);
 
-  const makeOptions = (period, parameter) => {
+  const makeOptions = (period, parameter, tickAmount) => {
     return {
       title: {
         text: period + '(' + parameter + ')',
@@ -34,6 +34,7 @@ export default function Historical() {
         align: 'center',
       },
       xaxis: {
+        tickAmount,
         categories: getCategories(period === 'Month' ? 30 : 7, parameter)
       },
       yaxis: {
@@ -92,17 +93,19 @@ export default function Historical() {
               </div>
 
               <div className="flex flex-col md:flex-row">
-                <div className="w-full md:w-1/2 p-4">
+                <div className="w-full p-4">
                   <Chart
-                    options={makeOptions('Month', 'OZONE')}
+                    options={makeOptions('Month', 'OZONE', 15)}
                     series={makeSeries('Month', 'OZONE')}
                     type="bar"
                     height={350}
                   />
                 </div>
-                <div className="w-full md:w-1/2 p-4">
+              </div>
+              <div className="flex flex-col md:flex-row">
+                <div className="w-full p-4">
                   <Chart
-                    options={makeOptions('Month', 'PM')}
+                    options={makeOptions('Month', 'PM', 15)}
                     series={makeSeries('Month', 'PM')}
                     type="bar"
                     height={350}
