@@ -81,7 +81,7 @@ export default function Historical() {
       {isCompleted && <div className="mt-8 flex flex-col">
           <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
             <div className="flex flex-col shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-              <div className="flex flex-col md:flex-row">
+              {/* <div className="flex flex-col md:flex-row">
                 <div className="w-full md:w-1/2 p-2">
                   <Chart
                     options={makeOptions('Week', 'OZONE')}
@@ -98,7 +98,7 @@ export default function Historical() {
                     height={350}
                   />
                 </div>
-              </div>
+              </div> */}
 
               <div className="flex flex-col md:flex-row">
                 <div className="w-full p-4">
