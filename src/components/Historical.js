@@ -19,7 +19,7 @@ export default function Historical() {
 
   const historicalContext = useContext(HistoricalContext);
   const historicals = historicalContext.rows;
-  const getHistoricals = (days, parameter) => historicals.filter(h=>h.ParameterName==parameter).sort((a, b)=>new Date(a.DateObserved) - new Date(b.DateObserved)).slice(-days);
+  const getHistoricals = (days, parameter) => historicals.filter(h=>h.ParameterName===parameter).sort((a, b)=>new Date(a.DateObserved) - new Date(b.DateObserved)).slice(-days);
   const getCategories = (days, parameter) => getHistoricals(days, parameter)?.map((historical, idx)=>monthNames[new Date(historical.DateObserved).getMonth()] + ' ' + nth(new Date(historical.DateObserved).getDate()));
   const getValues = (days, parameter) => getHistoricals(days, parameter)?.map((historical, idx)=>historical.AQI);
   const getAverage = (days, parameter) => {
@@ -122,24 +122,6 @@ export default function Historical() {
       <SearchPanel context={historicalContext} onComplete={(completed)=>setCompleted(completed)}/>
       {isCompleted && <div className="mt-8 flex flex-col">
           <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-              {/* <div className="flex flex-col md:flex-row">
-                <div className="w-full md:w-1/2 p-2">
-                  <Chart
-                    options={makeOptions('Week', 'OZONE')}
-                    series={makeSeries('Week', 'OZONE')}
-                    type="bar"
-                    height={350}
-                  />
-                </div>
-                <div className="w-full md:w-1/2 p-4">
-                  <Chart
-                    options={makeOptions('Week', 'PM')}
-                    series={makeSeries('Week', 'PM')}
-                    type="bar"
-                    height={350}
-                  />
-                </div>
-              </div> */}
             <div className="flex flex-col shadow ring-1 ring-black ring-opacity-5 md:rounded-lg mb-10">
               <div className="flex flex-col md:flex-row">
                 <div className="w-full p-4">
