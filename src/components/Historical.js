@@ -19,11 +19,20 @@ export default function Historical() {
 
   const historicalContext = useContext(HistoricalContext);
   const historicals = historicalContext.rows;
-  const getHistoricals = (days, parameter) => historicals.filter(h=>h.ParameterName.indexOf(parameter)!==-1).sort((a, b)=>new Date(a.DateObserved) - new Date(b.DateObserved)).slice(-days);
+  const getHistoricals = (days, parameter) => historicals.filter(h=>h.ParameterName==parameter).sort((a, b)=>new Date(a.DateObserved) - new Date(b.DateObserved)).slice(-days);
   const getCategories = (days, parameter) => getHistoricals(days, parameter)?.map((historical, idx)=>monthNames[new Date(historical.DateObserved).getMonth()] + ' ' + nth(new Date(historical.DateObserved).getDate()));
   const getValues = (days, parameter) => getHistoricals(days, parameter)?.map((historical, idx)=>historical.AQI);
+  const getAverage = (days, parameter) => {
+    let historicals = getHistoricals(days, parameter);
+    let average = 0;
+    historicals.forEach(h=>{
+      average += h.AQI;
+    })
+    return Math.round(average/historicals.length);
+  }
 
-  const makeOptions = (period, parameter, tickAmount) => {
+  const makeOptions = (period, parameter, tickAmount, average) => {
+    console.log(average)
     return {
       title: {
         text: period + '(' + parameter + ')',
@@ -42,6 +51,39 @@ export default function Historical() {
         title: {
           text: 'Air Quality Index(AQI)'
         }
+      },
+      annotations:{
+        position: 'back',
+        yaxis: [
+          {
+            y:average,
+            y2: null,
+            strokeDashArray: 1,
+            borderColor: '#000',
+            fillColor: '#000',
+            // opacity: 0.3,
+            offsetX: 0,
+            // offsetY: -3,
+            width: '100%',
+            yAxisIndex: 0,
+            label:{
+              text: 'Average: ' + average,
+              style:{
+                color: '#000'
+              }
+            }
+          }
+        ]
+      },
+      legend: {
+        show: true,
+        showForSingleSeries: true,
+        markers: {
+          fillColors: ['#00e400', '#ffff00', '#ff7e00', '#ff0000', '#8f3f97', '#7e0023'],
+        },
+        customLegendItems: [
+          '0-50', '51-100', '101-150', '151-200', '201-300', '301-500'
+        ]
       },
       colors: [
         (param)=>{
@@ -80,7 +122,6 @@ export default function Historical() {
       <SearchPanel context={historicalContext} onComplete={(completed)=>setCompleted(completed)}/>
       {isCompleted && <div className="mt-8 flex flex-col">
           <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-            <div className="flex flex-col shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
               {/* <div className="flex flex-col md:flex-row">
                 <div className="w-full md:w-1/2 p-2">
                   <Chart
@@ -99,22 +140,24 @@ export default function Historical() {
                   />
                 </div>
               </div> */}
-
+            <div className="flex flex-col shadow ring-1 ring-black ring-opacity-5 md:rounded-lg mb-10">
               <div className="flex flex-col md:flex-row">
                 <div className="w-full p-4">
                   <Chart
-                    options={makeOptions('Month', 'OZONE', 15)}
+                    options={makeOptions('Month', 'OZONE', 15, getAverage('Month', 'OZONE'))}
                     series={makeSeries('Month', 'OZONE')}
                     type="bar"
                     height={350}
                   />
                 </div>
               </div>
+            </div>
+            <div className="flex flex-col shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
               <div className="flex flex-col md:flex-row">
                 <div className="w-full p-4">
                   <Chart
-                    options={makeOptions('Month', 'PM', 15)}
-                    series={makeSeries('Month', 'PM')}
+                    options={makeOptions('Month', 'PM2.5', 15, getAverage('Month', 'PM2.5'))}
+                    series={makeSeries('Month', 'PM2.5')}
                     type="bar"
                     height={350}
                   />
