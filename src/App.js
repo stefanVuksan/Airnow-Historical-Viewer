@@ -24,9 +24,10 @@ function App() {
   
   return (
     <HistoricalContext.Provider value={{rows, init: initHistorical, push: pushHistorical}}>
-      <CustomDateContext.Provider value={{rows:crows, init: initCHistorical, push: pushCHistorical}}>
-        <MainTabView navigation={navigation} panels={panels}/>
-      </CustomDateContext.Provider>
+      {/* <CustomDateContext.Provider value={{rows:crows, init: initCHistorical, push: pushCHistorical}}> */}
+        {/* <MainTabView navigation={navigation} panels={panels}/> */}
+        <Historical />
+      {/* </CustomDateContext.Provider> */}
     </HistoricalContext.Provider>
   );
 }
